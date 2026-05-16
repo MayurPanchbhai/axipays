@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 
+// seeting the details in state variable
 export default function CheckoutForm({ onSubmit }) {
   const [formData, setFormData] = useState({
     card_holder_name: "",
@@ -40,6 +41,7 @@ export default function CheckoutForm({ onSubmit }) {
     return first6 + "******" + last4;
   };
 
+  // setting the user input
   const handleChange = (e) => {
     let { name, value } = e.target;
 
@@ -62,8 +64,17 @@ export default function CheckoutForm({ onSubmit }) {
     if (!formData.email.includes("@")) newErrors.email = "Invalid email";
     if (formData.card_number.replace(/\s/g, "").length !== 16)
       newErrors.card_number = "Invalid card number";
+
     if (!formData.cvv || formData.cvv.length < 3) newErrors.cvv = "Invalid CVV";
     if (!formData.amount) newErrors.amount = "Required";
+
+    const month = Number(formData.expiry_month);
+    if (!month || month < 1 || month > 12) {
+      newErrors.expiry_month = "Invalid month";
+    }
+    if (isCardExpired(formData.expiry_month, formData.expiry_year)) {
+      newErrors.expiry = "Card is expired";
+    }
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -80,9 +91,19 @@ export default function CheckoutForm({ onSubmit }) {
       card_number: formData.card_number.replace(/\s/g, ""),
     };
 
-    onSubmit(cleanData);
+    onSubmit(cleanData); //passing data to checkout.jsx
   };
 
+  // checking card validity
+  function isCardExpired(month, year) {
+    if (!month || !year) return true;
+    const now = new Date();
+    console.log(now);
+    const inputDate = new Date(year, month - 1);
+    inputDate.setMonth(inputDate.getMonth() + 1);
+    console.log(inputDate);
+    return inputDate <= now;
+  }
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
       <div className="w-full max-w-lg bg-white shadow-xl rounded-2xl p-6">
@@ -128,18 +149,29 @@ export default function CheckoutForm({ onSubmit }) {
           </div>
 
           <div className="grid grid-cols-2 gap-4">
-            <Input
-              label="MM"
-              name="expiry_month"
-              value={formData.expiry_month}
-              onChange={handleChange}
-            />
-            <Input
-              label="YYYY"
-              name="expiry_year"
-              value={formData.expiry_year}
-              onChange={handleChange}
-            />
+            <div>
+              <Input
+                label="MM"
+                name="expiry_month"
+                value={formData.expiry_month}
+                onChange={handleChange}
+                className={`input ${errors.expiry_month ? "border-red-500" : ""}`}
+              />
+              {errors.expiry_month && (
+                <p className="text-red-500 text-xs">{errors.expiry_month}</p>
+              )}
+            </div>
+            <div>
+              <Input
+                label="YYYY"
+                name="expiry_year"
+                value={formData.expiry_year}
+                onChange={handleChange}
+              />
+              {errors.expiry && (
+                <p className="text-red-500 text-xs">{errors.expiry}</p>
+              )}
+            </div>
           </div>
 
           <Input

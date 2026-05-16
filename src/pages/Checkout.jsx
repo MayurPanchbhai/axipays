@@ -44,6 +44,7 @@ export default function Checkout() {
       );
 
       const result = await response.json();
+      console.log("API RESPONSE:", result);
 
       setLoading(false);
 
