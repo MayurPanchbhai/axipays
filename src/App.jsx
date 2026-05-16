@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import "./App.css";
-import CheckoutForm from "./components/CheckoutForm";
 import Checkout from "./pages/Checkout";
 import Dashboard from "./pages/Dashboard";
 import { Route, Routes } from "react-router-dom";
