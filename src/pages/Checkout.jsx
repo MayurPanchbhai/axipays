@@ -1,13 +1,17 @@
 /** @format */
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CheckoutForm from "../components/CheckoutForm";
 import { generateHash } from "../utils/hash";
+import { useNavigate } from "react-router-dom";
+import Header from "../components/Header";
 
 export default function Checkout() {
-  const [redirectUrl, setRedirectUrl] = useState(null);
+  const [redirectUrl, setRedirectUrl] = useState();
   const [loading, setLoading] = useState(false);
+  const [redirectLoading, setRedirectLoading] = useState(false);
   const [status, setStatus] = useState(null);
+  const navigate = useNavigate();
 
   const handleSubmit = async (data) => {
     try {
@@ -44,26 +48,36 @@ export default function Checkout() {
       );
 
       const result = await response.json();
-      console.log("API RESPONSE:", result);
 
       setLoading(false);
 
       if (result.redirect_url) {
-        setRedirectUrl(result.redirect_url); // 👈 THIS LINE
+        setRedirectLoading(true);
+        setRedirectUrl(result.redirect_url);
       }
     } catch (error) {
       setLoading(false);
+      setRedirectLoading(false);
       console.error("API ERROR:", error);
     }
   };
 
+  useEffect(() => {
+    setRedirectLoading(false);
+  }, [redirectLoading]);
+
   return (
     <>
+      <Header Link1="/history" Link2="/dashboard" />
       <CheckoutForm onSubmit={handleSubmit} />
-
       {redirectUrl && (
-        <div className="fixed inset-0 bg-black/80 flex items-center justify-center">
+        <div className="fixed z-56 inset-0 bg-black/80 flex items-center justify-center">
           <div className="w-[90%] h-[90%] bg-white rounded-xl overflow-hidden relative">
+            {redirectLoading && (
+              <div className="absolute inset-0 flex items-center justify-center bg-white z-10">
+                <div className="animate-spin rounded-full h-12 w-12 border-4 border-blue-500 border-t-transparent"></div>
+              </div>
+            )}
             <iframe
               src={redirectUrl}
               className="w-full h-full"
@@ -72,13 +86,12 @@ export default function Checkout() {
 
             <button
               onClick={() => setRedirectUrl(null)}
-              className="absolute top-4 right-4 bg-red-500 text-white px-3 py-1 rounded">
+              className="absolute z-70 top-4 right-4 bg-red-500 text-white px-3 py-1 rounded">
               Close
             </button>
           </div>
         </div>
       )}
-
       {/* Loading UI */}
       {loading && (
         <div className="fixed inset-0 flex items-center justify-center bg-black/50">
@@ -87,7 +100,6 @@ export default function Checkout() {
           </div>
         </div>
       )}
-
       {/* Status Modal */}
       {status && (
         <div className="fixed inset-0 flex items-center justify-center bg-black/50">
@@ -106,7 +118,7 @@ export default function Checkout() {
 
             <button
               onClick={() => setStatus(null)}
-              className="mt-4 px-4 py-2 bg-blue-600 text-white rounded">
+              className="mt-4 absolute z-89 px-4 py-2 bg-blue-600 text-white rounded">
               Close
             </button>
           </div>

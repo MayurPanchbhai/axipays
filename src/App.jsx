@@ -3,14 +3,16 @@
 import { useState } from "react";
 import "./App.css";
 import Checkout from "./pages/Checkout";
-import Dashboard from "./pages/Dashboard";
+import HistoryDashboard from "./pages/HistoryDashboard";
 import { Route, Routes } from "react-router-dom";
+import TotalSummaryCard from "./pages/TotalSummaryCard";
 
 function App() {
   return (
     <Routes>
       <Route path="/" element={<Checkout />} />
-      <Route path="/dashboard" element={<Dashboard />} />
+      <Route path="/history" element={<HistoryDashboard />} />
+      <Route path="/dashboard" element={<TotalSummaryCard />} />
     </Routes>
   );
 }
