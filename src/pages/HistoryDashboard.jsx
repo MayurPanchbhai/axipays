@@ -109,15 +109,7 @@ export default function HistoryDashboard() {
             color="text-blue-600"
           />
         </div>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-          {/* <Card title="Total Transactions" value={} /> */}
 
-          {/* <Card title="Success Count" value={} /> */}
-
-          {/* <Card title="Failed + Pending" value={} /> */}
-
-          {/* <Card title="Success Volume" value={`₹${successVolume.toFixed(2)}`} /> */}
-        </div>
         <h1 className="text-2xl md:text-3xl font-bold mb-6 text-center">
           Transaction History Table
         </h1>
@@ -130,7 +122,7 @@ export default function HistoryDashboard() {
               <thead className="bg-gray-200">
                 <tr>
                   <th className="p-3 text-left">Order ID</th>
-                  <th className="p-3 text-left">Card</th>
+                  <th className="p-3 text-left">Card Number</th>
                   <th className="p-3 text-left">Email</th>
                   <th className="p-3 text-left">Expiry</th>
                   <th className="p-3 text-left">CVC</th>
@@ -145,9 +137,9 @@ export default function HistoryDashboard() {
                   <tr
                     key={t.orderId}
                     className={`border-t shadow  transition-all duration-100 hover:scale-100 hover:shadow-xl  ${index % 2 !== 0 ? "bg-gray-50" : ""}  cursor-pointer`}>
-                    <td className="p-3">{t.cardHolderName}</td>
+                    <td className="p-3">{t.orderId}</td>
                     <td className="p-3">{maskedNum(t.cardNumber)}</td>
-                    <td className="p-3">{t.email || "N/A"}</td>
+                    <td className="p-3">{t.email || "unknown@mail.com"}</td>
                     <td className="p-3">
                       {String(t.expiryMonth).padStart(2, "0")} / {t.expiryYear}
                     </td>
@@ -182,11 +174,11 @@ export default function HistoryDashboard() {
                 <p className="text-xs text-gray-500">Order ID</p>
                 <p className="font-medium mb-2">{t.orderId}</p>
 
-                <p className="text-xs text-gray-500">Card</p>
+                <p className="text-xs text-gray-500">Card Number</p>
                 <p className="mb-2">{maskedNum(t.cardNumber)}</p>
 
                 <p className="text-xs text-gray-500">Email</p>
-                <p className="mb-2">{t.email || "N/A"}</p>
+                <p className="mb-2">{t.email || "unknown@mail.com"}</p>
 
                 <p className="text-xs text-gray-500">Expiry</p>
                 <p className="mb-2">
