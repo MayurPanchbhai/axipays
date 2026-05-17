@@ -1,16 +1,120 @@
-# React + Vite
+<!-- @format -->
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Project Explanation
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+### Home Page (Payment Flow)
 
-## React Compiler
+On the home page, users can enter their payment details and initiate a transaction.
+While testing, you can use a valid card number that passes the :contentReference[oaicite:0]{index=0}, for example:
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### Form Handling & Validation
 
-## Expanding the ESLint configuration
+All form inputs are stored in a state variable. Before sending any request:
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- I validate whether all required fields are filled
+- I validate the card number using the Luhn algorithm
+- Only after successful validation, the hash is generated
+
+The hash generation logic is implemented in `hash.js`, and the main integration flow is handled in `Checkout.jsx`.
+
+---
+
+### Known Issues & Decisions
+
+- **Iframe Loading Delay**  
+  After receiving the `redirectUrl`, the iframe takes some time to load.  
+  I attempted to handle loading states, but this part is not fully optimized yet.
+
+- **Form Reset Disabled**  
+  I implemented a form reset feature after submission, but it felt annoying to re-enter all details during testing.  
+  So I commented it out intentionally.
+
+  If you want to enable it, you can uncomment the relevant code around:
+
+---
+
+---
+
+## Transaction History Page
+
+In this component:
+
+- I fetch transaction data from the API
+- Store it using state variables
+- Mask sensitive card numbers using a custom `maskedNum` function
+- Implement pagination (10 records per page)
+- Add a loading state for better UX
+
+### Summary Section
+
+I created summary cards showing:
+
+- Total transactions (per page)
+- Total success count
+- Total failed count
+- Total success volume
+
+---
+
+### Transaction Table
+
+The table displays:
+
+- Order ID
+- Card Number (masked)
+- Email
+- Expiry
+- CVC
+- Amount
+- Currency
+- Status
+
+⚠️ Note:  
+The API did not provide email data, so I used a fallback:
+
+---
+
+## Dashboard Page
+
+This page focuses on data visualization.
+
+### Charts Implemented
+
+- **Transaction Status Donut Chart**
+  - Based on 500 transaction entries
+  - Shows success vs failure distribution
+
+- **Currency Distribution Chart**
+  - I created a function `currencyDistribution`
+  - It calculates frequency of each currency
+  - Data is visualized using a donut chart
+
+### 🎨 Dynamic Color Handling
+
+To handle future changes in currency types:
+
+- I implemented a random color generator
+- It generates HEX color codes dynamically
+
+---
+
+## 📊 Summary Cards
+
+The dashboard includes 4 key metrics:
+
+- Total Transactions
+- Total Success Volume
+- Total Success Count
+- Total Failed Count
+
+---
+
+## 🧭 Navigation
+
+A header is implemented for easy navigation between:
+
+- Home (Payment)
+- History
+- Dashboard

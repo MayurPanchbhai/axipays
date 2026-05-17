@@ -43,7 +43,7 @@ export default function TotalSummaryCard() {
   });
 
   const successCount = successTransactions.length;
-  console.log(successCount);
+  // console.log(successCount);
 
   const totalSuccessVolume = successTransactions.reduce(
     (sum, item) => sum + item.amount,
@@ -61,7 +61,7 @@ export default function TotalSummaryCard() {
     (payment) => payment.status === "pending",
   ).length;
 
-  console.log(successTransactions);
+  // console.log(successTransactions);
 
   //Transaction Status for donut chart
   const donutChartTransactionStatus = [
@@ -72,7 +72,7 @@ export default function TotalSummaryCard() {
 
   // currency distrubution for successful payment
   const currencyFrequency = currencyDistribution(successTransactions);
-  console.log(currencyFrequency);
+  // console.log(currencyFrequency);
 
   // currency distrubution for donut chart
 
@@ -92,8 +92,6 @@ export default function TotalSummaryCard() {
       color: randomColor(),
     });
   }
-
-  console.log(arrayForCurrency);
 
   if (loading) {
     return (

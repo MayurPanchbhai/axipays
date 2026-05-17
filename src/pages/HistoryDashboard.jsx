@@ -8,7 +8,7 @@ export default function HistoryDashboard() {
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [transactions, setTransactions] = useState([]);
-  const [limit, setLimit] = useState(10);
+  const [limit] = useState(10);
 
   function maskedNum(num) {
     let firstDigits = Array.from(String(num), Number).slice(0, 6).join("");
@@ -42,12 +42,12 @@ export default function HistoryDashboard() {
 
   useEffect(() => {
     fetchTransactions();
-    console.log("rerendered");
+    // console.log("rerendered");
   }, [page]);
 
   // cards data
   const totalTransactions = transactions.length;
-  console.log(transactions);
+  // console.log(transactions);
 
   const successTransactions = transactions.filter(
     (t) => t.status === "success",
@@ -212,7 +212,7 @@ export default function HistoryDashboard() {
             onClick={() => {
               setPage((p) => Math.max(p - 1, 1));
             }}
-            class="before:ease rounded relative h-10 w-20 overflow-hidden border border-green-500 bg-green-500 text-white shadow-2xl transition-all before:absolute before:right-0 before:top-0 before:h-12 before:w-6 before:translate-x-12 before:rotate-6 before:bg-white before:opacity-10 before:duration-700 hover:shadow-green-500 hover:before:-translate-x-40">
+            className="before:ease rounded relative h-10 w-20 overflow-hidden border border-green-500 bg-green-500 text-white shadow-2xl transition-all before:absolute before:right-0 before:top-0 before:h-12 before:w-6 before:translate-x-12 before:rotate-6 before:bg-white before:opacity-10 before:duration-700 hover:shadow-green-500 hover:before:-translate-x-40">
             <span relative="relative z-10">Prev</span>
           </button>
 
@@ -222,7 +222,7 @@ export default function HistoryDashboard() {
             onClick={() => {
               setPage((p) => p + 1);
             }}
-            class="before:ease rounded relative h-10 w-20 overflow-hidden border border-green-500 bg-green-500 text-white shadow-2xl transition-all before:absolute before:right-0 before:top-0 before:h-12 before:w-6 before:translate-x-12 before:rotate-6 before:bg-white before:opacity-10 before:duration-700 hover:shadow-green-500 hover:before:-translate-x-40">
+            className="before:ease rounded relative h-10 w-20 overflow-hidden border border-green-500 bg-green-500 text-white shadow-2xl transition-all before:absolute before:right-0 before:top-0 before:h-12 before:w-6 before:translate-x-12 before:rotate-6 before:bg-white before:opacity-10 before:duration-700 hover:shadow-green-500 hover:before:-translate-x-40">
             <span relative="relative z-10">Next</span>
           </button>
         </div>
@@ -230,20 +230,3 @@ export default function HistoryDashboard() {
     </>
   );
 }
-
-// ${index % 2 == 0 ? "bg-dark" : "bg-info"}
-
-// const successTransactions = totalTransactions.filter(
-//   (t) => t.status === "success",
-// );
-
-// const successCount = successTransactions.length;
-
-// const failedCount = totalTransactions.filter(
-//   (t) => t.status === "failed" || t.status === "pending",
-// ).length;
-
-// const successVolume = successTransactions.reduce(
-//   (sum, t) => sum + Number(t.amount),
-//   0,
-// );

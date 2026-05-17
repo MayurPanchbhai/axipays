@@ -19,12 +19,3 @@ export function generateHash(cardNumber, email) {
 
   return hash.toUpperCase();
 }
-
-// 🔥 Test it
-// const result1 = generateHash("4111657687654565", "mayurpanchbhai@gmail.com");
-// console.log(result1);
-
-// const result = generateHash("4111657687654565", "mayurpanchbhai@gmail.com");
-// console.log(result);
-
-// console.log("Hash:", result);

@@ -11,7 +11,5 @@ export function currencyDistribution(data) {
     }
   }
 
-  console.log(currencyFrequency);
-
   return currencyFrequency;
 }

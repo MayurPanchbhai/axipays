@@ -67,11 +67,4 @@ export const DonutChart = ({ title, chartData, graphtext }, centerValue) => {
   );
 };
 
-// Fallback Mock Data (so it runs out-of-the-box)
-// const defaultMockData = [
-//   { label: "Direct", value: 400, color: "#3b82f6" },
-//   { label: "Social", value: 250, color: "#10b981" },
-//   { label: "Referral", value: 150, color: "#f59e0b" },
-// ];
-
 export default DonutChart;

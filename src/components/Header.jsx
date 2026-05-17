@@ -28,7 +28,7 @@ const Header = ({ Link1, Link2 }) => {
         <div className="flex  justify-between lg: h-16 items-center">
           {/* Logo */}
           <div className="flex-shrink-0 flex items-center">
-            <span className="text-2xl font-bold text-blue-600">MySite</span>
+            <span className="text-2xl font-bold text-blue-600">AXIPAYS</span>
           </div>
 
           {/* Desktop Menu */}
